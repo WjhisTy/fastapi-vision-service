@@ -81,16 +81,12 @@ class HunyuanDiTModel:
         # 去噪
         for t in self.pipe.scheduler.timesteps:
             with torch.no_grad():
-                noise = self.pipe.unet(
-                    latents, t, encoder_hidden_states=embed
-                ).sample
+                noise = self.pipe.unet(latents, t, encoder_hidden_states=embed).sample
             latents = self.pipe.scheduler.step(noise, t, latents).prev_sample
 
         # 解码
         with torch.no_grad():
-            img_tensor = self.pipe.vae.decode(
-                latents / self.pipe.vae.config.scaling_factor
-            ).sample
+            img_tensor = self.pipe.vae.decode(latents / self.pipe.vae.config.scaling_factor).sample
 
         # 后处理
         img_tensor = (img_tensor / 2 + 0.5).clamp(0, 1)
@@ -98,5 +94,3 @@ class HunyuanDiTModel:
         img_data = (img_data * 255).round().astype("uint8")
 
         return Image.fromarray(img_data)
-
-

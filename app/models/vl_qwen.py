@@ -95,16 +95,12 @@ class QwenVLModel:
 
         # 步骤 4: 将 tokens 解码为文本
         # 跳过特殊 tokens 以获得干净的输出
-        answer = self.processor.batch_decode(
-            output_ids, skip_special_tokens=True
-        )[0]
+        answer = self.processor.batch_decode(output_ids, skip_special_tokens=True)[0]
 
         print(f"[VL] Generated answer: {answer}")
         return answer
 
-    def _manual_preprocessing_example(
-        self, image_bytes: bytes, question: str
-    ) -> dict[str, Any]:
+    def _manual_preprocessing_example(self, image_bytes: bytes, question: str) -> dict[str, Any]:
         """
         手动预处理步骤示例（用于教学目的）。
 
@@ -121,5 +117,3 @@ class QwenVLModel:
         )
 
         return inputs
-
-

@@ -1,6 +1,5 @@
 """Text-to-Image API routes - Simple Demo (no PIL dependency)."""
 
-
 from fastapi import APIRouter
 from pydantic import BaseModel
 
