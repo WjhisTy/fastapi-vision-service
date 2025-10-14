@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # 文生图
+  t2i-service:
+    build: .
+    container_name: fastapi-t2i
+    ports:
+      - "8000:8000" # 把容器内的 8000 端口映射到你电脑的 8000 端口
+    environment:
+      - SERVICE_MODE=t2i
+      - DEVICE=cpu
+      - HF_HOME=/models/hf
+    volumes:
+      - ./hf_cache:/models/hf
+    profiles:
+      - t2i
+
+  # 图片理解
+  vl-service:
+    build: .
+    container_name: fastapi-vl
+    ports:
+      - "8001:8000"
+    environment:
+      - SERVICE_MODE=vl
+      - DEVICE=cpu
+      - HF_HOME=/models/hf
+    volumes:
+      - ./hf_cache:/models/hf
+    profiles:
+      - vl
+
+  # GPU 模式 快一点
+  # GPU version
+  # t2i-service-gpu:
+  #   build: .
+  #   container_name: fastapi-t2i-gpu
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - SERVICE_MODE=t2i
+  #     - DEVICE=cuda
+  #     - HF_HOME=/models/hf
+  #   volumes:
+  #     - ./hf_cache:/models/hf
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+  #   profiles:
+  #     - gpu
+
