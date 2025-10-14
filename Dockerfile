@@ -9,8 +9,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.local/bin:${PATH}"
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # 设置工作目录
 WORKDIR /app
@@ -21,7 +20,7 @@ COPY app ./app
 COPY src ./src
 
 # 安装依赖
-RUN uv sync --no-dev --frozen
+RUN uv sync --no-dev
 
 # 设置Hugging Face缓存目录
 ENV HF_HOME=/models/hf
