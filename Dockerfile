@@ -16,8 +16,9 @@ ENV PATH="/root/.local/bin:${PATH}"
 WORKDIR /app
 
 # 复制项目文件
-COPY pyproject.toml ./
+COPY pyproject.toml uv.lock ./
 COPY app ./app
+COPY src ./src
 
 # 安装依赖
 RUN uv sync --no-dev --frozen
