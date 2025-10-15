@@ -44,8 +44,8 @@ RUN pip install --no-cache-dir \
     sentencepiece \
     protobuf
 
-# 安装项目
-RUN pip install --no-cache-dir -e .
+# 不需要安装项目本身，因为所有依赖都已经安装了
+# app/ 目录已经被COPY到容器中，可以直接运行
 
 # 设置Hugging Face缓存目录
 ENV HF_HOME=/models/hf
