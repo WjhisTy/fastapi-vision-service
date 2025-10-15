@@ -17,11 +17,11 @@ COPY src ./src
 COPY app ./app
 
 # 升级pip并安装依赖
-# 使用CPU版本的torch来减少构建时间和镜像大小
 RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir hatchling && \
     pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir -e . --no-deps && \
-    pip install --no-cache-dir fastapi uvicorn pydantic pydantic-settings python-multipart pillow httpx transformers diffusers accelerate safetensors sentencepiece protobuf
+    pip install --no-cache-dir fastapi uvicorn pydantic pydantic-settings python-multipart pillow httpx transformers diffusers accelerate safetensors sentencepiece protobuf && \
+    pip install --no-cache-dir -e .
 
 # 设置Hugging Face缓存目录
 ENV HF_HOME=/models/hf
