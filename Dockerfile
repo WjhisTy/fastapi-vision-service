@@ -1,7 +1,7 @@
 # 使用 Python 3.10
 FROM python:3.10-slim
 
-# 安装系统依赖
+# 安装系统依赖（包括ML库需要的依赖）
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -17,8 +17,11 @@ COPY src ./src
 COPY app ./app
 
 # 升级pip并安装依赖
+# 使用CPU版本的torch来减少构建时间和镜像大小
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -e .
+    pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir -e . --no-deps && \
+    pip install --no-cache-dir fastapi uvicorn pydantic pydantic-settings python-multipart pillow httpx transformers diffusers accelerate safetensors sentencepiece protobuf
 
 # 设置Hugging Face缓存目录
 ENV HF_HOME=/models/hf
