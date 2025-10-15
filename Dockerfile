@@ -14,16 +14,18 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 # 设置工作目录
 WORKDIR /app
 
-# 设置环境变量
-ENV UV_SYSTEM_PYTHON=1
-
-# 复制项目文件
-COPY pyproject.toml uv.lock ./
-COPY app ./app
+# 复制项目文件和代码
+COPY pyproject.toml ./
 COPY src ./src
+COPY app ./app
 
-# 安装依赖（使用系统Python，不创建虚拟环境）
-RUN uv sync --no-dev
+# 创建虚拟环境并安装依赖
+RUN uv venv /opt/venv && \
+    . /opt/venv/bin/activate && \
+    uv pip install -e .
+
+# 设置PATH使用虚拟环境
+ENV PATH="/opt/venv/bin:$PATH"
 
 # 设置Hugging Face缓存目录
 ENV HF_HOME=/models/hf
