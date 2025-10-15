@@ -1,7 +1,7 @@
 # 使用 Python 3.10
 FROM python:3.10-slim
 
-# 安装
+# 安装系统依赖
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -14,12 +14,15 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 # 设置工作目录
 WORKDIR /app
 
+# 设置环境变量
+ENV UV_SYSTEM_PYTHON=1
+
 # 复制项目文件
 COPY pyproject.toml uv.lock ./
 COPY app ./app
 COPY src ./src
 
-# 安装依赖
+# 安装依赖（使用系统Python，不创建虚拟环境）
 RUN uv sync --no-dev
 
 # 设置Hugging Face缓存目录
@@ -31,6 +34,6 @@ ENV HF_HUB_CACHE=/models/hf
 EXPOSE 8000
 
 # 运行应用程序
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 
