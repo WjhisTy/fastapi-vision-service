@@ -31,7 +31,7 @@ services:
     profiles:
       - vl
 
-  # GPU 模式 快一点
+  # GPU 模式 快一点 可以用
   # GPU version
   # t2i-service-gpu:
   #   build: .
