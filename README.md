@@ -357,16 +357,6 @@ fastapi-vision-service/
 - GPU 模式需要 CUDA 环境
 - 首次运行会下载模型（数 GB）
 
-## 🔮 可选进阶功能
-
-以下功能可以自行扩展：
-
-- [ ] 使用 xDiT 包装文生图模型
-- [ ] 使用 vLLM 包装图片理解模型
-- [ ] 支持批量推理
-- [ ] 使用 torch.profiler 性能分析和优化
-- [ ] 接入 Pi0 模型
-
 ## 📄 许可证
 
 MIT License
