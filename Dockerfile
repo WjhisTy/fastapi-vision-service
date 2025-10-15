@@ -8,24 +8,17 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# 安装 uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
-
 # 设置工作目录
 WORKDIR /app
 
-# 复制项目文件和代码
+# 复制项目文件
 COPY pyproject.toml ./
 COPY src ./src
 COPY app ./app
 
-# 创建虚拟环境并安装依赖
-RUN uv venv /opt/venv && \
-    . /opt/venv/bin/activate && \
-    uv pip install -e .
-
-# 设置PATH使用虚拟环境
-ENV PATH="/opt/venv/bin:$PATH"
+# 升级pip并安装依赖
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -e .
 
 # 设置Hugging Face缓存目录
 ENV HF_HOME=/models/hf
