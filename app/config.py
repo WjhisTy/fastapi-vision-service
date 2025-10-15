@@ -24,8 +24,10 @@ class Settings(BaseSettings):
     hf_cache_dir: str | None = None
 
     # 模型路径（可覆盖默认的 HuggingFace 模型 ID）
+    # NOTE: HunyuanDiT 1.5B 具体模型待确认，当前使用标准版本
+    # 可选: Tencent-Hunyuan/HunyuanDiT-v1.2-Diffusers-Distill (蒸馏版，参数量未明确)
     t2i_model_id: str = "Tencent-Hunyuan/HunyuanDiT-v1.2-Diffusers"
-    vl_model_id: str = "Qwen/Qwen2-VL-2B-Instruct"
+    vl_model_id: str = "Qwen/Qwen2.5-VL-3B-Instruct"
 
     t2i_num_inference_steps: int = 10  # CPU推理太慢，先用10步测试
     t2i_guidance_scale: float = 7.5

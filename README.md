@@ -314,7 +314,7 @@ fastapi-vision-service/
 | `DEVICE` | 计算设备 | `cpu` | `cpu`, `cuda` |
 | `HF_CACHE_DIR` | HuggingFace 缓存目录 | `None` | 任意路径 |
 | `T2I_MODEL_ID` | 文生图模型 ID | `Tencent-Hunyuan/HunyuanDiT-v1.2-Diffusers` | 任意 HF 模型 |
-| `VL_MODEL_ID` | 图片理解模型 ID | `Qwen/Qwen2-VL-2B-Instruct` | 任意 HF 模型 |
+| `VL_MODEL_ID` | 图片理解模型 ID | `Qwen/Qwen2.5-VL-3B-Instruct` | 任意 HF 模型 |
 | `T2I_NUM_INFERENCE_STEPS` | 推理步数 | `30` | 整数 |
 | `T2I_GUIDANCE_SCALE` | 引导强度 | `7.5` | 浮点数 |
 | `T2I_HEIGHT` | 图片高度 | `512` | 整数 |
@@ -340,7 +340,7 @@ fastapi-vision-service/
 
 ### 图片理解 - Qwen2.5-VL
 
-- **模型**：Qwen/Qwen2-VL-2B-Instruct
+- **模型**：Qwen/Qwen2.5-VL-3B-Instruct
 - **类型**：视觉-语言多模态模型
 - **输入**：图像 + 文本问题
 - **输出**：文本回答
