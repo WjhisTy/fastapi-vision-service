@@ -1,5 +1,5 @@
-# 使用 Python 3.10
-FROM python:3.10-slim
+# 使用标准Python镜像（不是slim，包含更多预装库）
+FROM python:3.10
 
 # 安装系统依赖（包括ML库需要的依赖）
 RUN apt-get update && apt-get install -y \
@@ -16,12 +16,36 @@ COPY pyproject.toml ./
 COPY src ./src
 COPY app ./app
 
-# 升级pip并安装依赖
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir hatchling && \
-    pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir fastapi uvicorn pydantic pydantic-settings python-multipart pillow httpx transformers diffusers accelerate safetensors sentencepiece protobuf && \
-    pip install --no-cache-dir -e .
+# 升级pip
+RUN pip install --no-cache-dir --upgrade pip
+
+# 安装构建工具
+RUN pip install --no-cache-dir hatchling
+
+# 安装PyTorch (CPU版本)
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+# 安装基础依赖
+RUN pip install --no-cache-dir \
+    fastapi \
+    uvicorn[standard] \
+    pydantic \
+    pydantic-settings \
+    python-multipart \
+    pillow \
+    httpx
+
+# 安装ML库
+RUN pip install --no-cache-dir \
+    transformers \
+    diffusers \
+    accelerate \
+    safetensors \
+    sentencepiece \
+    protobuf
+
+# 安装项目
+RUN pip install --no-cache-dir -e .
 
 # 设置Hugging Face缓存目录
 ENV HF_HOME=/models/hf
